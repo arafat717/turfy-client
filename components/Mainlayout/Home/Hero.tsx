@@ -40,7 +40,7 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4 min-h-[75vh]">
           
           {/* Left Column: Big Bold Typography & CTA */}
-          <div className="lg:col-span-5 space-y-6 text-left z-20">
+          <div className="lg:col-span-4 space-y-6 text-left z-20 ">
             <div className="leading-none tracking-tight">
               <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black uppercase text-white tracking-wider block">
                 OWN
