@@ -1,7 +1,7 @@
 import NextAuthSessionProvider from "@/lib/NextAuthSessionProvider";
 import ReduxProvider from "@/redux/ReduxProvider";
 import type { Metadata } from "next";
-import { DM_Sans, Roboto } from "next/font/google";
+import {  Oswald, } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -11,9 +11,10 @@ import "./globals.css";
 //   weight: ["100", "300", "400", "500", "700", "900"],
 // });
 
-const roboto = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const oswald = Oswald({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700'],
+  variable: '--font-oswald',
 });
 
 export const metadata: Metadata = {
@@ -27,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${roboto.className} antialiased`}>
+    <html lang="en" className={oswald.variable}>
+      <body className="font-sans antialiased bg-white text-neutral-900">
         <Toaster position="top-center" richColors />
         <NextAuthSessionProvider>
           <ReduxProvider>{children}</ReduxProvider>
