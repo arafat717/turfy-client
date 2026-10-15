@@ -9,7 +9,7 @@ export default function TickerBar() {
   ];
 
   return (
-    <div className="w-full overflow-hidden bg-[#9ecc00] py-6 text-neutral-900 font-black uppercase tracking-wider">
+    <div className="w-full overflow-hidden bg-[#9ecc00] py-3 text-neutral-900 font-black uppercase tracking-wider">
       {/* Inline Keyframes style tag */}
       <style>{`
         @keyframes marquee {
@@ -17,7 +17,7 @@ export default function TickerBar() {
           100% { transform: translateX(-50%); }
         }
         .animate-infinite-scroll {
-          animation: marquee 20s linear infinite;
+          animation: marquee 80s linear infinite;
         }
       `}</style>
 
@@ -27,7 +27,7 @@ export default function TickerBar() {
            <div className="mx-6 flex h-5 w-5 items-center justify-center rounded-full bg-white/20">
             <span className="h-2 w-2 rounded-full bg-white block" />
            </div>
-            <span className="text-base font-extrabold">{item}</span>
+            <span className="text-[20px] font-bold">{item}</span>
           </div>
         ))}
       </div>

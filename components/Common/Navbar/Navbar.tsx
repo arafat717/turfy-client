@@ -1,10 +1,24 @@
 "use client";
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import logo from "../../../public/images/football.png";
 import Image from 'next/image';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navbarRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const closeMenuOnOutsideTap = (event: PointerEvent) => {
+      if (!navbarRef.current?.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', closeMenuOnOutsideTap);
+    return () => document.removeEventListener('pointerdown', closeMenuOnOutsideTap);
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { title: 'Home', href: '#home', active: true },
@@ -16,7 +30,7 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="w-full bg-[#001428] border-b border-slate-800 text-white sticky top-0 z-50 font-sans">
+    <header ref={navbarRef} className="w-full bg-[#001428] border-b border-slate-800 text-white sticky top-0 z-50 font-sans">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           

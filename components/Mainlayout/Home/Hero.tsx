@@ -38,7 +38,12 @@ const Hero = () => {
           
           {/* Left Column: Big Bold Typography & CTA */}
           <div className="lg:col-span-4 space-y-6 text-center md:text-left z-20">
-            <div className="leading-none tracking-tight">
+            <h1 className="sm:hidden whitespace-nowrap text-[clamp(1.25rem,8vw,3rem)] font-bold uppercase tracking-[0.08em]">
+              <span className="text-white">OWN</span>{' '}
+              <span className="text-[#83c400]">THE</span>{' '}
+              <span className="text-transparent" style={{ WebkitTextStroke: '1px #ffffff' }}>PITCH</span>
+            </h1>
+            <div className="hidden sm:block leading-none tracking-tight">
               <h1 className="text-5xl sm:text-6xl md:text-9xl  lg:text-[150px] font-bold uppercase text-white tracking-wider block">
                 OWN
               </h1>
@@ -59,7 +64,7 @@ const Hero = () => {
           </div>
 
           {/* Center Column: Animated Player & Spreading Head Radar Effect */}
-          <div className="lg:col-span-4 relative flex items-center justify-center h-80 sm:h-[400px] md:h-[450px] lg:h-[650px]">
+          <div className="hidden sm:flex lg:col-span-4 relative items-center justify-center h-80 sm:h-[400px] md:h-[450px] lg:h-[650px]">
             {/* Keep the aura anchored to the player so it stays behind his head. */}
             <div
               className="relative z-10 w-full h-full flex items-center justify-center transition-transform duration-300 ease-out"
