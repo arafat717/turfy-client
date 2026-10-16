@@ -1,9 +1,10 @@
+import RegisterPage from "@/components/Mainlayout/Auth/Register";
 
 
 const page = () => {
   return (
     <div>
-      <h1>Desgin your register page here</h1>
+      <RegisterPage/>
     </div>
   );
 };

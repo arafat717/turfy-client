@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import logo from "../../../public/images/football.png";
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -71,8 +72,8 @@ const Navbar = () => {
 
           {/* Right Action Button (Get Started) */}
           <div className="hidden sm:flex items-center">
-            <a
-              href="#get-started"
+            <Link
+              href="/register"
               className="inline-flex items-center space-x-3 bg-[#83c400] hover:bg-[#92dc00] text-[#020d1a] font-black text-sm uppercase tracking-wider px-5 py-2.5 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-[#83c400]/20 hover:-translate-y-0.5"
             >
               <span>Get Started</span>
@@ -81,7 +82,7 @@ const Navbar = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -123,8 +124,8 @@ const Navbar = () => {
 
           {/* Mobile CTA Button */}
           <div className="pt-4">
-            <a
-              href="#get-started"
+            <Link
+              href="/register"
               className="w-full flex items-center justify-center space-x-3 bg-[#83c400] hover:bg-[#92dc00] text-[#020d1a] font-black text-sm uppercase tracking-wider px-5 py-3 rounded-2xl transition-all"
             >
               <span>Get Started</span>
@@ -133,7 +134,7 @@ const Navbar = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       )}
