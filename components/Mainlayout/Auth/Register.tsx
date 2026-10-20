@@ -19,9 +19,9 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col lg:flex-row bg-slate-50 text-slate-800">
+    <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800 lg:min-h-dvh lg:flex-row">
       {/* Left Section - Hero / Branding */}
-      <div className="relative flex min-h-[400px] w-full flex-col justify-end overflow-hidden p-6 lg:min-h-screen lg:w-1/2 lg:p-12">
+      <div className="relative hidden overflow-hidden lg:flex lg:min-h-dvh lg:w-1/2 lg:flex-col lg:justify-end lg:p-12">
         {/* Background Image */}
         <Image
           src={stadium}
@@ -35,8 +35,8 @@ export default function RegisterPage() {
       </div>
 
       {/* Right Section - Registration Form */}
-      <div className="flex w-full items-center justify-center p-6 lg:w-1/2 lg:p-2">
-        <div className="w-full max-w-3xl p-10 space-y-6 bg-white">
+      <div className="flex min-h-screen w-full items-center justify-center px-4 py-8 sm:px-6 lg:min-h-dvh lg:w-1/2 lg:px-8">
+        <div className="w-full max-w-2xl space-y-6 bg-white px-0 py-2 sm:px-4 sm:py-6 lg:px-6">
           {/* Logo Header */}
           <div className="flex justify-center lg:justify-start">
             <div className="flex items-center gap-2 text-2xl font-black text-slate-900">
@@ -76,14 +76,14 @@ export default function RegisterPage() {
             <NInput type='email' name='email' placeholder='email'></NInput>
             <NPassword name='password' placeholder='Password'></NPassword>
             <NPassword name='comfirmpassword' placeholder='Confirm password'></NPassword>
-            <label className="inline-flex items-center gap-3 cursor-pointer select-none">
+            <label className="inline-flex cursor-pointer select-none items-start gap-3">
               <input
                type="checkbox"
                checked={agreed}
                onChange={(e) => setAgreed(e.target.checked)}
-               className="h-5 w-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500 transition-colors"
+               className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-teal-600 transition-colors focus:ring-teal-500"
               />
-              <span className="text-sm text-gray-600">
+              <span className="min-w-0 text-sm text-gray-600">
              By continuing you indicate that you read and agreed to the{' '}
               <Link 
              href="/terms" 

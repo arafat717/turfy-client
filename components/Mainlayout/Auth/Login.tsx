@@ -20,8 +20,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col lg:flex-row bg-slate-50 text-slate-800">
-      <div className="relative flex min-h-[400px] w-full flex-col justify-end overflow-hidden p-6 lg:min-h-screen lg:w-1/2 lg:p-12">
+    <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800 lg:min-h-dvh lg:flex-row">
+      <div className="relative hidden overflow-hidden lg:flex lg:min-h-dvh lg:w-1/2 lg:flex-col lg:justify-end lg:p-12">
         <Image
           src={stadium}
           alt="Shuttlecock and Badminton Racket"
@@ -34,8 +34,8 @@ export default function LoginPage() {
       </div>
 
       {/* Right Section - Registration Form */}
-      <div className="flex w-full items-center justify-center p-6 lg:w-1/2 lg:p-2">
-        <div className="w-full max-w-3xl p-10 space-y-6 bg-white">
+      <div className="flex min-h-screen w-full items-center justify-center px-4 py-8 sm:px-6 lg:min-h-dvh lg:w-1/2 lg:px-8">
+        <div className="w-full max-w-2xl space-y-6 bg-white px-0 py-2 sm:px-4 sm:py-6 lg:px-6">
           {/* Logo Header */}
           <div className="flex justify-center lg:justify-start">
             <div className="flex items-center gap-2 text-2xl font-black text-slate-900">
