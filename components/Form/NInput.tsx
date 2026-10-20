@@ -28,7 +28,7 @@ const NInput = ({ type, name, placeholder, label }: Props) => {
                         id={name}
                         type={type}
                         placeholder={placeholder}
-                        className="py-5 w-full"
+                        className="py-7 w-full border-none bg-gray-100 rounded-sm"
                         {...field}
                     />
 

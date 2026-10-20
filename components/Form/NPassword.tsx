@@ -30,7 +30,7 @@ const NPassword = ({ name, label, placeholder }: Props) => {
                             type={showPassword ? "text" : "password"}
                             placeholder={placeholder || "Enter your password"}
                             {...field}
-                            className="pr-10 py-6"
+                            className="pr-10 py-7 w-full border-none bg-gray-100 rounded-sm"
                         />
                         <button
                             type="button"
