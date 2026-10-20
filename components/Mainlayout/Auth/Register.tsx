@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { User, Mail, EyeOff, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import stadium from "../../../public/images/turf1.jpg"
 import logo from "../../../public/images/football.png";
 import Form from '@/components/Form/Form';
 import NInput from '@/components/Form/NInput';
 import NPassword from '@/components/Form/NPassword';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
+
+
 
 export default function RegisterPage() {
   const [agreed, setAgreed] = useState(false);
@@ -20,7 +22,6 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800 lg:min-h-dvh lg:flex-row">
-      {/* Left Section - Hero / Branding */}
       <div className="relative hidden overflow-hidden lg:flex lg:min-h-dvh lg:w-1/2 lg:flex-col lg:justify-end lg:p-12">
         {/* Background Image */}
         <Image
