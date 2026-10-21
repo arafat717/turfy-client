@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
@@ -9,15 +9,72 @@ import logo from "../../../public/images/football.png";
 import Form from '@/components/Form/Form';
 import NInput from '@/components/Form/NInput';
 import NPassword from '@/components/Form/NPassword';
-import { FieldValues } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
+import { signUpSchema } from '@/src/schema/signUp.schema';
+import { useRegisterMutation } from '@/redux/api/authApi';
+import { toast } from 'sonner';
+
+function RegistrationTerms() {
+  const { control } = useFormContext();
 
 
+  return (
+    <Controller
+      control={control}
+      name="terms"
+      render={({ field, fieldState }) => (
+        <div>
+          <label className="inline-flex cursor-pointer select-none items-start gap-3">
+            <input
+              type="checkbox"
+              checked={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              name={field.name}
+              ref={field.ref}
+              className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-teal-600 transition-colors focus:ring-teal-500"
+            />
+            <span className="min-w-0 text-sm text-gray-600">
+              By continuing you indicate that you read and agreed to the{' '}
+              <Link
+                href="/terms"
+                className="font-medium text-teal-600 hover:text-teal-700 hover:underline"
+              >
+                Terms of Use
+              </Link>
+            </span>
+          </label>
+          {fieldState.error && (
+            <p className="mt-1 text-sm text-red-500">{fieldState.error.message}</p>
+          )}
+        </div>
+      )}
+    />
+  );
+}
 
 export default function RegisterPage() {
-  const [agreed, setAgreed] = useState(false);
+   const [register] = useRegisterMutation()
+
 
   const handleRegister = async (data:FieldValues)=>{
-    console.log(data)
+    const {
+      terms,
+      confirmPassword,
+      ...others
+    } = data;
+        console.log(others)
+    const toastId = toast.loading("Signing...")
+    try{
+      const res = await register(others)
+      console.log("data==>", res)
+      if(res?.data){
+        toast.success("Register successfull!")
+      }
+    }catch(err:any){
+      toast.error(err.message)
+    }
   }
 
   return (
@@ -72,28 +129,16 @@ export default function RegisterPage() {
           </div>
 
           {/* Form Controls */}
-          <Form onSubmit={handleRegister}>
+          <Form
+            onSubmit={handleRegister}
+            resolver={zodResolver(signUpSchema)}
+            defaultValues={{ terms: false }}
+          >
             <NInput type='text' name='name' placeholder='Username'></NInput>
             <NInput type='email' name='email' placeholder='email'></NInput>
             <NPassword name='password' placeholder='Password'></NPassword>
-            <NPassword name='comfirmpassword' placeholder='Confirm password'></NPassword>
-            <label className="inline-flex cursor-pointer select-none items-start gap-3">
-              <input
-               type="checkbox"
-               checked={agreed}
-               onChange={(e) => setAgreed(e.target.checked)}
-               className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-teal-600 transition-colors focus:ring-teal-500"
-              />
-              <span className="min-w-0 text-sm text-gray-600">
-             By continuing you indicate that you read and agreed to the{' '}
-              <Link 
-             href="/terms" 
-              className="text-teal-600 hover:text-teal-700 hover:underline font-medium"
-            >
-             Terms of Use
-            </Link>
-            </span>
-            </label>
+            <NPassword name='confirmPassword' placeholder='Confirm password'></NPassword>
+            <RegistrationTerms />
             <button
               type="submit"
               className="mt-2 flex w-full items-center justify-center gap-2 rounded-md bg-[#1a2332] py-3.5 text-[20px] font-semibold text-white shadow transition hover:bg-green-800 cursor-pointer"

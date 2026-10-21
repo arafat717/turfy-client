@@ -27,15 +27,17 @@ const NOtp = ({ type, name, placeholder, label }: Props) => {
                     <label htmlFor={name} className="mb-1 font-medium text-sm">
                         {label}
                     </label>
-                    <InputOTP maxLength={4} {...field}>
+                    <InputOTP maxLength={6} {...field}>
                         <InputOTPGroup>
-                            <InputOTPSlot index={0} />
-                            <InputOTPSlot index={1} />
+                            <InputOTPSlot className='size-12 text-2xl border-gray-600' index={0} />
+                            <InputOTPSlot className='size-12 text-2xl border-gray-600' index={1} />
+                            <InputOTPSlot className='size-12 text-2xl border-gray-600' index={2} />
                         </InputOTPGroup>
                         <InputOTPSeparator />
                         <InputOTPGroup>
-                            <InputOTPSlot index={2} />
-                            <InputOTPSlot index={3} />
+                            <InputOTPSlot className='size-12 text-2xl border-gray-600' index={3} />
+                            <InputOTPSlot className='size-12 text-2xl border-gray-600' index={4} />
+                            <InputOTPSlot className='size-12 text-2xl border-gray-600' index={5} />
                         </InputOTPGroup>
                     </InputOTP>
                     {fieldState.error && (
