@@ -8,33 +8,36 @@ import stadium from "../../../public/images/turf1.jpg"
 import logo from "../../../public/images/football.png";
 import Form from '@/components/Form/Form';
 import { FieldValues } from 'react-hook-form';
-import { useRegisterMutation } from '@/redux/api/authApi';
+import { useVerifyMailMutation } from '@/redux/api/authApi';
 import { toast } from 'sonner';
 import NOtp from '@/components/Form/NOtp';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 
 export default function VerifyMail() {
-   const [register] = useRegisterMutation()
+   const [verify] = useVerifyMailMutation()
+   const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
+   const router = useRouter()
 
-
-  const handleRegister = async (data:FieldValues)=>{
-    const {
-      terms,
-      confirmPassword,
-      ...others
-    } = data;
-        console.log(others)
-    const toastId = toast.loading("Signing...")
-    try{
-      const res = await register(others)
-      console.log("data==>", res)
-      if(res?.data){
-        toast.success("Register successfull!")
+ const handleVerify = async (data: FieldValues) => {
+   
+    const toastId = toast.loading("Verifying...");
+    const payload = {
+      ...data,
+      email: email || data.email, 
+    };
+    console.log("payload==>", payload)
+    try {
+      const res = await verify(payload);
+      if (res?.data) {
+        toast.success((res?.data as any)?.message, { id: toastId });
+        router.push("/")
       }
-    }catch(err:any){
-      toast.error(err.message)
+    } catch (err: any) {
+      toast.error(err.message, { id: toastId });
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800 lg:min-h-dvh lg:flex-row">
@@ -88,7 +91,7 @@ export default function VerifyMail() {
 
           {/* Form Controls */}
           <Form
-            onSubmit={handleRegister}
+            onSubmit={handleVerify}
           >
             <div className='flex justify-center items-center'>
                 <NOtp name='otp'></NOtp>

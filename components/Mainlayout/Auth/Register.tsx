@@ -14,6 +14,7 @@ import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import { signUpSchema } from '@/src/schema/signUp.schema';
 import { useRegisterMutation } from '@/redux/api/authApi';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 function RegistrationTerms() {
   const { control } = useFormContext();
@@ -56,26 +57,22 @@ function RegistrationTerms() {
 
 export default function RegisterPage() {
    const [register] = useRegisterMutation()
+  const router = useRouter();
 
+const handleRegister = async (data: FieldValues) => {
+  const { terms, confirmPassword, ...others } = data;
+  const toastId = toast.loading("Signing...");
 
-  const handleRegister = async (data:FieldValues)=>{
-    const {
-      terms,
-      confirmPassword,
-      ...others
-    } = data;
-        console.log(others)
-    const toastId = toast.loading("Signing...")
-    try{
-      const res = await register(others)
-      console.log("data==>", res)
-      if(res?.data){
-        toast.success("Register successfull!")
-      }
-    }catch(err:any){
-      toast.error(err.message)
+  try {
+    const res = await register(others);
+    if (res?.data) {
+      toast.success((res?.data as any)?.message, { id: toastId });
+      router.push(`/verify-mail?email=${encodeURIComponent(others.email)}`);
     }
+  } catch (err: any) {
+    toast.error(err.message, { id: toastId });
   }
+};
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-50 text-slate-800 lg:min-h-dvh lg:flex-row">
