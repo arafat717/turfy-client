@@ -1,38 +1,47 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import stadium from "../../../public/images/turf1.jpg"
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import stadium from "../../../public/images/turf1.jpg";
 import logo from "../../../public/images/football.png";
-import Form from '@/components/Form/Form';
-import { FieldValues } from 'react-hook-form';
-import { useVerifyMailMutation } from '@/redux/api/authApi';
-import { toast } from 'sonner';
-import NOtp from '@/components/Form/NOtp';
-import { useRouter, useSearchParams } from 'next/navigation';
-
+import Form from "@/components/Form/Form";
+import { FieldValues } from "react-hook-form";
+import { useVerifyMailMutation } from "@/redux/api/authApi";
+import { toast } from "sonner";
+import NOtp from "@/components/Form/NOtp";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/features/authSlice";
 
 export default function VerifyMail() {
-   const [verify] = useVerifyMailMutation()
-   const searchParams = useSearchParams();
+  const [verify] = useVerifyMailMutation();
+  const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
-   const router = useRouter()
+  const router = useRouter();
+  const dispatch = useDispatch();
 
- const handleVerify = async (data: FieldValues) => {
-   
+  const handleVerify = async (data: FieldValues) => {
     const toastId = toast.loading("Verifying...");
     const payload = {
       ...data,
-      email: email || data.email, 
+      email: email || data.email,
     };
-    console.log("payload==>", payload)
+    console.log("payload==>", payload);
     try {
       const res = await verify(payload);
       if (res?.data) {
+        dispatch(
+          setUser({
+            token: (res.data as any).data?.accessToken,
+            user: (res.data as any).user,
+          }),
+        );
         toast.success((res?.data as any)?.message, { id: toastId });
-        router.push("/")
+        router.push("/");
+      } else {
+        toast.error((res.error as any).message, { id: toastId });
       }
     } catch (err: any) {
       toast.error(err.message, { id: toastId });
@@ -58,43 +67,44 @@ export default function VerifyMail() {
       <div className="flex min-h-screen w-full items-center justify-center px-4 py-8 sm:px-6 lg:min-h-dvh lg:w-1/2 lg:px-8">
         <div className="w-full max-w-2xl space-y-6 bg-white px-0 py-2 sm:px-4 sm:py-6 lg:px-6">
           {/* Logo Header */}
-       <div className='flex items-center justify-center'>
-           <div className="flex justify-center lg:justify-start">
-            <div className="flex items-center gap-2 text-2xl font-black text-slate-900">
-               {/* Logo Section */}
-              <Link href="/" className="flex-shrink-0 flex items-center space-x-2">
-             <div className="relative flex items-center justify-center">
-              <Image src={logo} width={50} height={50} alt="Turfy Logo" />
-             </div>
-            
-            <div className="flex flex-col">
-              <div className="flex items-center">
-                <span className="text-3xl font-black tracking-tight text-black uppercase italic">
-                  Turfy
-                </span>
+          <div className="flex items-center justify-center">
+            <div className="flex justify-center lg:justify-start">
+              <div className="flex items-center gap-2 text-2xl font-black text-slate-900">
+                {/* Logo Section */}
+                <Link
+                  href="/"
+                  className="flex-shrink-0 flex items-center space-x-2"
+                >
+                  <div className="relative flex items-center justify-center">
+                    <Image src={logo} width={50} height={50} alt="Turfy Logo" />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <div className="flex items-center">
+                      <span className="text-3xl font-black tracking-tight text-black uppercase italic">
+                        Turfy
+                      </span>
+                    </div>
+                    <span className="text-[13px] text-[#83c400] font-semibold tracking-wider uppercase -mt-1 self-end pr-1">
+                      Sports
+                    </span>
+                  </div>
+                </Link>
               </div>
-              <span className="text-[13px] text-[#83c400] font-semibold tracking-wider uppercase -mt-1 self-end pr-1">
-                Sports
-              </span>
-            </div>
-          </Link>
             </div>
           </div>
-       </div>
 
           {/* Form Header */}
           <div className="space-y-1 text-center lg:text-left">
             <h1 className="text-2xl font-bold tracking-tight text-center text-[#192335] sm:text-4xl">
-             Verify your mail
+              Verify your mail
             </h1>
           </div>
 
           {/* Form Controls */}
-          <Form
-            onSubmit={handleVerify}
-          >
-            <div className='flex justify-center items-center'>
-                <NOtp name='otp'></NOtp>
+          <Form onSubmit={handleVerify}>
+            <div className="flex justify-center items-center">
+              <NOtp name="otp"></NOtp>
             </div>
             <button
               type="submit"
@@ -104,7 +114,6 @@ export default function VerifyMail() {
               <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </Form>
-
         </div>
       </div>
     </div>
