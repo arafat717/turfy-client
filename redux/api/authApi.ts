@@ -57,6 +57,13 @@ export const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    googleLogin: builder.mutation({
+      query: (data: { idToken: string }) => ({
+        url: "/auth/google",
+        method: "POST",
+        body: data,
+      }),
+    }),
     resetPassword: builder.mutation({
       query: (data: any) => ({
         url: "/auth/reset-password",
@@ -73,7 +80,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     getMe: builder.query({
       query: () => ({
-        url: "/users/profile",
+        url: "/auth/me",
         method: "GET",
       }),
       providesTags: ["User"],
@@ -101,4 +108,5 @@ export const {
   useChangePasswordMutation,
   useGetMeQuery,
   useUpdateUserMutation,
+  useGoogleLoginMutation,
 } = authApi;
