@@ -1,10 +1,11 @@
+import VerifyResetCodePage from "@/components/Mainlayout/Auth/ResetPassword";
 
-
-export default function ResetPassword() {
+const page = () => {
   return (
-    <div >
-    <h1>Design your forgot password page</h1>
+    <div>
+      <VerifyResetCodePage />
     </div>
   );
-}
+};
 
+export default page;

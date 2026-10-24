@@ -1,12 +1,5 @@
-import React from 'react';
+import { redirect } from "next/navigation";
 
-const page = () => {
-  return (
-    <div>
-      <h1>Design your change password page</h1>
-    </div>
-  );
-};
-
-export default page;
-
+export default function ResetPasswordPage() {
+  redirect("/forgot-password/otp");
+}

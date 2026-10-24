@@ -136,7 +136,7 @@ export default function LoginPage() {
             <NPassword name="password" placeholder="Password"></NPassword>
             <Link
               className="text-black text-right underline hover:underline"
-              href={"/"}
+              href={"/forgot-password"}
             >
               Forgot Password?
             </Link>

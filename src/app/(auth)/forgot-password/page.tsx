@@ -1,12 +1,12 @@
-
+import ForgotPasswordPage from '@/components/Mainlayout/Auth/ForgotPassword';
+import React from 'react';
 
 const page = () => {
   return (
     <div>
-      <h1>Design your forgot password page</h1>
+      <ForgotPasswordPage/>
     </div>
   );
 };
 
 export default page;
-
