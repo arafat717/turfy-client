@@ -3,19 +3,26 @@
 import Link from "next/link";
 import AuthFormLayout from "@/components/Mainlayout/Auth/AuthFormLayout";
 import Form from "@/components/Form/Form";
-import NInput from "@/components/Form/NInput";
 import NOtp from "@/components/Form/NOtp";
 import NPassword from "@/components/Form/NPassword";
 import { useResetPasswordMutation } from "@/redux/api/authApi";
 import type { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function VerifyResetCodePage() {
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") ?? "";
 
   const handleResetPassword = async (data: FieldValues) => {
+    if (!email) {
+      toast.error("Email address is missing. Please request a new code.");
+      router.push("/forgot-password");
+      return;
+    }
+
     if (!/^\d{6}$/.test(data.otp)) {
       toast.error("Enter the 6-digit verification code.");
       return;
@@ -25,7 +32,7 @@ export default function VerifyResetCodePage() {
 
     try {
       const response = await resetPassword({
-        email: data.email,
+        email,
         otp: data.otp,
         newPassword: data.newPassword,
       });
@@ -58,7 +65,7 @@ export default function VerifyResetCodePage() {
   return (
     <AuthFormLayout
       title="Reset your password"
-      description="Enter your email, verification code, and new password."
+      description="Enter the verification code and choose a new password."
       footer={
         <>
           Remembered your password?{" "}
@@ -72,15 +79,15 @@ export default function VerifyResetCodePage() {
       }
     >
       <Form onSubmit={handleResetPassword}>
+        <p className="mb-4 text-sm text-slate-600">
+          Resetting password for{" "}
+          <span className="font-medium text-slate-900">
+            {email || "your email address"}
+          </span>
+        </p>
         <div className="flex justify-center">
           <NOtp name="otp" label="Verification code" />
         </div>
-        <NInput
-          name="email"
-          type="email"
-          label="Email address"
-          placeholder="Enter your email"
-        />
         <NPassword
           name="newPassword"
           label="New password"
