@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { ChevronDown, LogOut, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import logo from "../../../public/images/football.png";
@@ -31,16 +31,17 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navbarRef = useRef<HTMLElement>(null);
   const token = useAppSelector((state) => state.auth.token);
-  const storedUser = useAppSelector((state) => state.auth.user) as
-    | Profile
-    | null;
+  const storedUser = useAppSelector(
+    (state) => state.auth.user,
+  ) as Profile | null;
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
   const router = useRouter();
   const { data: profileResponse } = useGetMeQuery("", {
     skip: !token,
   }) as { data?: { data?: Profile } };
   const profile = (profileResponse?.data ?? storedUser) as Profile | undefined;
-  console.log(profile)
+  console.log(profile);
   const name = profile?.name || "User";
   const initials = name
     .split(/\s+/)
@@ -69,16 +70,14 @@ const Navbar = () => {
     };
 
     document.addEventListener("pointerdown", closeMenuOnOutsideTap);
-    return () => document.removeEventListener("pointerdown", closeMenuOnOutsideTap);
+    return () =>
+      document.removeEventListener("pointerdown", closeMenuOnOutsideTap);
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { title: "Home", href: "#home", active: true },
-    { title: "Coaches", href: "#coaches" },
-    { title: "User", href: "#user" },
-    { title: "Pages", href: "#pages" },
-    { title: "Blog", href: "#blog" },
-    { title: "Contact Us", href: "#contact" },
+    { title: "Home", href: "/" },
+    { title: "Blog", href: "/blog" },
+    { title: "Contact Us", href: "/contact-us" },
   ];
 
   const profileMenu = (
@@ -149,19 +148,24 @@ const Navbar = () => {
           </Link>
 
           <nav className="hidden items-center space-x-6 md:flex lg:space-x-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.title}
-                href={link.href}
-                className={`text-sm font-extrabold tracking-wider uppercase transition-colors duration-200 ${
-                  link.active
-                    ? "text-[#83c400]"
-                    : "text-white hover:text-[#83c400]"
-                }`}
-              >
-                {link.title}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+
+              return (
+                <Link
+                  key={link.title}
+                  href={link.href}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`text-sm font-extrabold tracking-wider uppercase transition-colors duration-200 ${
+                    isActive
+                      ? "text-[#83c400]"
+                      : "text-white hover:text-[#83c400]"
+                  }`}
+                >
+                  {link.title}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="hidden items-center sm:flex">
@@ -236,20 +240,25 @@ const Navbar = () => {
 
       {isMobileMenuOpen && (
         <div className="space-y-3 border-b border-slate-800 bg-[#041527] px-4 pt-3 pb-6 transition-all md:hidden">
-          {navLinks.map((link) => (
-            <a
-              key={link.title}
-              href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={`block border-b border-slate-800/60 py-2 text-sm font-bold tracking-wider uppercase ${
-                link.active
-                  ? "text-[#83c400]"
-                  : "text-slate-200 hover:text-[#83c400]"
-              }`}
-            >
-              {link.title}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
+              <Link
+                key={link.title}
+                href={link.href}
+                aria-current={isActive ? "page" : undefined}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block border-b border-slate-800/60 py-2 text-sm font-bold tracking-wider uppercase ${
+                  isActive
+                    ? "text-[#83c400]"
+                    : "text-slate-200 hover:text-[#83c400]"
+                }`}
+              >
+                {link.title}
+              </Link>
+            );
+          })}
           {!token && (
             <div className="pt-4">
               <Link
