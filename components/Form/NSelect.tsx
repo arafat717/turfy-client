@@ -1,41 +1,67 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Controller, useFormContext } from 'react-hook-form';
+import { cn } from "@/lib/utils";
+import {
+    Controller,
+    useFormContext,
+    type RegisterOptions,
+} from "react-hook-form";
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 type Props = {
-    type?: string,
-    name: string,
-    placeholder?: string,
-    label?: string,
-    items: { label: string; value: string }[]
-}
+    name: string;
+    placeholder?: string;
+    label?: string;
+    items: { label: string; value: string }[];
+    className?: string;
+    labelClassName?: string;
+    contentClassName?: string;
+    rules?: RegisterOptions;
+};
 
-const NSelect = ({ type, name, placeholder, label, items }: Props) => {
+const NSelect = ({
+    name,
+    placeholder,
+    label,
+    items,
+    className,
+    labelClassName,
+    contentClassName,
+    rules,
+}: Props) => {
     const { control } = useFormContext();
     return (
         <Controller
             control={control}
             name={name}
+            rules={rules}
             render={({ field, fieldState }) => (
                 <div className="flex flex-col mb-4">
-                    <label htmlFor={name} className="mb-1 font-medium text-sm">
-                        {label}
-                    </label>
+                    {label && (
+                        <label
+                            htmlFor={name}
+                            className={cn("mb-1 font-medium text-sm", labelClassName)}
+                        >
+                            {label}
+                        </label>
+                    )}
                     <div>
-                        <Select onValueChange={(val) => field.onChange(val)}
-                            value={field.value || undefined}>
-                            <SelectTrigger className="w-full py-5">
+                        <Select
+                            onValueChange={field.onChange}
+                            value={field.value || undefined}
+                        >
+                            <SelectTrigger
+                                id={name}
+                                className={cn("w-full py-5", className)}
+                            >
                                 <SelectValue placeholder={placeholder} />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className={contentClassName}>
                                 <SelectGroup>
                                     {items.map((opt) => (
                                         <SelectItem key={opt.value} value={opt.value}>
@@ -55,7 +81,4 @@ const NSelect = ({ type, name, placeholder, label, items }: Props) => {
     );
 };
 
-
-
 export default NSelect;
-

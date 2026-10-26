@@ -8,23 +8,26 @@ import {
   MessageCircle,
   Phone,
 } from "lucide-react";
-import type { FormEvent } from "react";
+import Form from "@/components/Form/Form";
+import NInput from "@/components/Form/NInput";
+import NSelect from "@/components/Form/NSelect";
+import NTextArea from "@/components/Form/NTextArea";
+import type { FieldValues } from "react-hook-form";
 
 const emailAddress = "info@example.com";
 const phoneNumber = "+1 54569 54521";
+const contactTopics = [
+  { label: "Booking a court", value: "Booking a court" },
+  { label: "Venue information", value: "Venue information" },
+  { label: "Partnerships", value: "Partnerships" },
+  { label: "Something else", value: "Something else" },
+];
 
 const ContactPage = () => {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const name = String(formData.get("name") ?? "");
-    const email = String(formData.get("email") ?? "");
-    const topic = String(formData.get("topic") ?? "General question");
-    const message = String(formData.get("message") ?? "");
-    const subject = encodeURIComponent(`Turfy contact: ${topic}`);
+  const handleSubmit = (data: FieldValues) => {
+    const subject = encodeURIComponent(`Turfy contact: ${data.topic}`);
     const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nTopic: ${topic}\n\n${message}`,
+      `Name: ${data.name}\nEmail: ${data.email}\nTopic: ${data.topic}\n\n${data.message}`,
     );
 
     window.location.href = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
@@ -172,80 +175,57 @@ const ContactPage = () => {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <Form
+              onSubmit={handleSubmit}
+              defaultValues={{ topic: "Booking a court" }}
+            >
               <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="contact-name"
-                    className="mb-2 block text-sm font-semibold text-slate-200"
-                  >
-                    Your name
-                  </label>
-                  <input
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    autoComplete="name"
-                    placeholder="Alex Morgan"
-                    required
-                    className="h-12 w-full rounded-xl border border-white/10 bg-[#020d1a]/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-[#83c400]/70 focus:ring-2 focus:ring-[#83c400]/15"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="contact-email"
-                    className="mb-2 block text-sm font-semibold text-slate-200"
-                  >
-                    Email address
-                  </label>
-                  <input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    placeholder="you@example.com"
-                    required
-                    className="h-12 w-full rounded-xl border border-white/10 bg-[#020d1a]/70 px-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-[#83c400]/70 focus:ring-2 focus:ring-[#83c400]/15"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="contact-topic"
-                  className="mb-2 block text-sm font-semibold text-slate-200"
-                >
-                  What’s this about?
-                </label>
-                <select
-                  id="contact-topic"
-                  name="topic"
-                  defaultValue="Booking a court"
-                  className="h-12 w-full rounded-xl border border-white/10 bg-[#020d1a]/70 px-4 text-sm text-white outline-none transition focus:border-[#83c400]/70 focus:ring-2 focus:ring-[#83c400]/15"
-                >
-                  <option>Booking a court</option>
-                  <option>Venue information</option>
-                  <option>Partnerships</option>
-                  <option>Something else</option>
-                </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="contact-message"
-                  className="mb-2 block text-sm font-semibold text-slate-200"
-                >
-                  Your message
-                </label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  rows={5}
-                  placeholder="Tell us a little about what you need..."
-                  required
-                  className="w-full resize-y rounded-xl border border-white/10 bg-[#020d1a]/70 px-4 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-slate-600 focus:border-[#83c400]/70 focus:ring-2 focus:ring-[#83c400]/15"
+                <NInput
+                  name="name"
+                  type="text"
+                  label="Your name"
+                  autoComplete="name"
+                  placeholder="Alex Morgan"
+                  rules={{ required: "Please enter your name." }}
+                  labelClassName="mb-2 block font-semibold text-slate-200"
+                  className="h-12 rounded-xl border border-white/10 bg-[#020d1a]/70 px-4 text-sm text-white shadow-none placeholder:text-slate-600 focus-visible:border-[#83c400]/70 focus-visible:ring-2 focus-visible:ring-[#83c400]/15"
+                />
+                <NInput
+                  name="email"
+                  type="email"
+                  label="Email address"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  rules={{
+                    required: "Please enter your email address.",
+                    pattern: {
+                      value: /^\S+@\S+\.\S+$/,
+                      message: "Please enter a valid email address.",
+                    },
+                  }}
+                  labelClassName="mb-2 block font-semibold text-slate-200"
+                  className="h-12 rounded-xl border border-white/10 bg-[#020d1a]/70 px-4 text-sm text-white shadow-none placeholder:text-slate-600 focus-visible:border-[#83c400]/70 focus-visible:ring-2 focus-visible:ring-[#83c400]/15"
                 />
               </div>
+
+              <NSelect
+                name="topic"
+                label="What’s this about?"
+                items={contactTopics}
+                labelClassName="mb-2 block font-semibold text-slate-200"
+                className="h-12 rounded-xl border-white/10 bg-[#020d1a]/70 px-4 text-sm text-white shadow-none focus-visible:border-[#83c400]/70 focus-visible:ring-2 focus-visible:ring-[#83c400]/15"
+                contentClassName="border-white/10 bg-[#061a2d] text-white"
+              />
+
+              <NTextArea
+                name="message"
+                label="Your message"
+                rows={5}
+                placeholder="Tell us a little about what you need..."
+                rules={{ required: "Please enter a message." }}
+                labelClassName="mb-2 block font-semibold text-slate-200"
+                className="min-h-36 resize-y rounded-xl border-white/10 bg-[#020d1a]/70 px-4 py-3 text-sm leading-6 text-white shadow-none placeholder:text-slate-600 focus-visible:border-[#83c400]/70 focus-visible:ring-2 focus-visible:ring-[#83c400]/15"
+              />
 
               <button
                 type="submit"
@@ -258,7 +238,7 @@ const ContactPage = () => {
                 <Clock3 className="h-3.5 w-3.5 shrink-0 text-[#83c400]" />
                 Your message is sent from your own email app.
               </p>
-            </form>
+            </Form>
           </div>
         </div>
       </section>
