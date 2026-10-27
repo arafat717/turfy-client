@@ -62,13 +62,11 @@ const Navbar = () => {
 
   useEffect(() => {
     if (!isMobileMenuOpen) return;
-
     const closeMenuOnOutsideTap = (event: PointerEvent) => {
       if (!navbarRef.current?.contains(event.target as Node)) {
         setIsMobileMenuOpen(false);
       }
     };
-
     document.addEventListener("pointerdown", closeMenuOnOutsideTap);
     return () =>
       document.removeEventListener("pointerdown", closeMenuOnOutsideTap);
@@ -90,8 +88,6 @@ const Navbar = () => {
         >
           <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#83c400] font-bold text-[#020d1a]">
             {image ? (
-              // Google profile images are remote URLs, so use a regular image element.
-              // eslint-disable-next-line @next/next/no-img-element
               <img src={image} alt="" className="h-full w-full object-cover" />
             ) : (
               initials || <UserRound className="h-5 w-5" />
