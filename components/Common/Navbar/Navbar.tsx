@@ -12,6 +12,7 @@ import { baseApi } from "@/redux/api/baseApi";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { logout } from "@/redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronDown, LogOut, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,6 +28,23 @@ type Profile = {
   picture?: string;
 };
 
+const ProfileSkeleton = ({ compact = false }: { compact?: boolean }) => (
+  <div
+    className="flex items-center gap-2 p-1.5"
+    aria-label="Loading user information"
+    role="status"
+  >
+    <Skeleton className="h-10 w-10 shrink-0 rounded-full bg-white/10" />
+    {!compact && (
+      <span className="hidden space-y-2 sm:block">
+        <Skeleton className="h-3.5 w-24 bg-white/10" />
+        <Skeleton className="h-3 w-32 bg-white/10" />
+      </span>
+    )}
+    <span className="sr-only">Loading user information...</span>
+  </div>
+);
+
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navbarRef = useRef<HTMLElement>(null);
@@ -37,11 +55,13 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const router = useRouter();
-  const { data: profileResponse } = useGetMeQuery("", {
-    skip: !token,
-  }) as { data?: { data?: Profile } };
+  const { data: profileResponse, isLoading: isProfileLoading } = useGetMeQuery(
+    "",
+    {
+      skip: !token,
+    },
+  ) as { data?: { data?: Profile }; isLoading: boolean };
   const profile = (profileResponse?.data ?? storedUser) as Profile | undefined;
-  console.log(profile);
   const name = profile?.name || "User";
   const initials = name
     .split(/\s+/)
@@ -56,7 +76,7 @@ const Navbar = () => {
     dispatch(logout());
     dispatch(baseApi.util.resetApiState());
     setIsMobileMenuOpen(false);
-    router.push("/login");
+    router.push("/");
     toast.success("Logged out successfully.", { id: toastId });
   };
 
@@ -166,7 +186,11 @@ const Navbar = () => {
 
           <div className="hidden items-center sm:flex">
             {token ? (
-              profileMenu
+              isProfileLoading ? (
+                <ProfileSkeleton />
+              ) : (
+                profileMenu
+              )
             ) : (
               <Link
                 href="/register"
@@ -193,7 +217,8 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2 sm:hidden">
-            {token && profileMenu}
+            {token &&
+              (isProfileLoading ? <ProfileSkeleton compact /> : profileMenu)}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="rounded-lg p-2 text-slate-300 hover:bg-[#08203a] hover:text-white focus:outline-none"

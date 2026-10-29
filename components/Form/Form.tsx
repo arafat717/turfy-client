@@ -9,10 +9,17 @@ type TConfigProps = {
 
 type Props = {
     children: ReactNode;
-    onSubmit: SubmitHandler<FieldValues>
+    onSubmit: (data: FieldValues) => void | boolean | Promise<void | boolean>;
+    resetOnSuccess?: boolean;
 } & TConfigProps;
 
-const Form = ({ children, onSubmit, resolver, defaultValues }: Props) => {
+const Form = ({
+    children,
+    onSubmit,
+    resolver,
+    defaultValues,
+    resetOnSuccess = false,
+}: Props) => {
     const formConfig: TConfigProps = {};
     if (resolver) {
         formConfig['resolver'] = resolver;
@@ -26,8 +33,10 @@ const Form = ({ children, onSubmit, resolver, defaultValues }: Props) => {
 
     const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (onSubmit) {
-            await onSubmit(data);
-            // methods.reset();
+            const succeeded = await onSubmit(data);
+            if (resetOnSuccess && succeeded === true) {
+                methods.reset();
+            }
         }
     };
 
