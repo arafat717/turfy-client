@@ -1,15 +1,23 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
-import player from '../../../public/images/banner-1.png';
-import Image from 'next/image';
+import React, { useState } from "react";
+import player from "../../../public/images/banner-1.png";
+import Image from "next/image";
+import Link from "next/link";
+import { useAppSelector } from "@/redux/hooks";
+import { useDecodedToken } from "@/src/hooks/useDecodedToken";
 
 const Hero = () => {
+  const token = useAppSelector((state) => state.auth.token);
+  const decodedToken = useDecodedToken(token);
+  const showApplyForOwner =
+    Boolean(token) && decodedToken?.role?.toLowerCase() === "player";
+
   // State for tracking mouse offset for inverted parallax movement
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
 
   // Handle mouse move over hero section
-  const handleMouseMove = (e:any) => {
+  const handleMouseMove = (e: any) => {
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
 
@@ -31,17 +39,21 @@ const Hero = () => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className="relative min-h-[90vh] lg:min-h-[90vh] w-full bg-cover bg-center overflow-hidden flex items-center justify-center font-sans select-none"
-     style={{ backgroundImage: "url('/images/banner-bg (1).jpg')" }}
+      style={{ backgroundImage: "url('/images/banner-bg (1).jpg')" }}
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 py-16 lg:py-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 items-center gap-8 lg:gap-4 min-h-[75vh] w-full">
-          
           {/* Left Column: Big Bold Typography & CTA */}
           <div className="lg:col-span-4 space-y-6 text-center md:text-left z-20">
             <h1 className="sm:hidden whitespace-nowrap text-[clamp(1.25rem,8vw,3rem)] font-bold uppercase tracking-[0.08em]">
-              <span className="text-white">OWN</span>{' '}
-              <span className="text-[#83c400]">THE</span>{' '}
-              <span className="text-transparent" style={{ WebkitTextStroke: '1px #ffffff' }}>PITCH</span>
+              <span className="text-white">OWN</span>{" "}
+              <span className="text-[#83c400]">THE</span>{" "}
+              <span
+                className="text-transparent"
+                style={{ WebkitTextStroke: "1px #ffffff" }}
+              >
+                PITCH
+              </span>
             </h1>
             <div className="hidden sm:block leading-none tracking-tight">
               <h1 className="text-5xl sm:text-6xl md:text-9xl  lg:text-[150px] font-bold uppercase text-white tracking-wider block">
@@ -50,17 +62,19 @@ const Hero = () => {
               <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[150px] font-bold uppercase text-[#83c400] tracking-wider block">
                 THE
               </h1>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[150px] font-bold uppercase text-transparent stroke-white tracking-wider block"
-                  style={{ WebkitTextStroke: '2px #ffffff' }}>
+              <h1
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-[150px] font-bold uppercase text-transparent stroke-white tracking-wider block"
+                style={{ WebkitTextStroke: "2px #ffffff" }}
+              >
                 PITCH
               </h1>
             </div>
 
             <p className="text-slate-200 text-sm sm:text-[22px] mx-auto font-semibold md:mx-0 leading-relaxed font-normal pt-2">
-              Discover the best football turfs near you, check available time slots, and book your next game in just a few clicks. Less planning, more playing.
+              Discover the best football turfs near you, check available time
+              slots, and book your next game in just a few clicks. Less
+              planning, more playing.
             </p>
-
-            
           </div>
 
           {/* Center Column: Animated Player & Spreading Head Radar Effect */}
@@ -73,9 +87,7 @@ const Hero = () => {
               }}
             >
               {/* Concentric Spreading Pulse Aura behind Head */}
-              <div
-                className="absolute top-[18%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"
-              >
+              <div className="absolute top-[18%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
                 <div className="relative flex items-center justify-center w-40 h-40 sm:w-44 sm:h-44 lg:w-52 lg:h-52">
                   <span className="absolute inline-flex w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-full bg-white/10 animate-ping" />
                   <span className="absolute inline-flex w-36 h-36 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full border border-white/20 animate-pulse" />
@@ -97,34 +109,79 @@ const Hero = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:col-span-2 lg:col-span-4 lg:flex lg:flex-col gap-4 justify-center items-stretch lg:items-end z-20">
             {/* Stat Card 1 */}
             <div className="w-full sm:w-auto lg:w-52 bg-gray-400/10 backdrop-blur-xs border-r-2 border-b-2 border-[#83c400] rounded-xl p-4 sm:p-6 lg:p-10 text-center shadow-xl hover:border-[#83c400]/50 transition-all">
-              <h3 className="text-3xl sm:text-5xl font-black text-[#83c400]">48</h3>
-              <p className="text-[12px] font-bold text-white uppercase mt-1">Premium Courts</p>
+              <h3 className="text-3xl sm:text-5xl font-black text-[#83c400]">
+                48
+              </h3>
+              <p className="text-[12px] font-bold text-white uppercase mt-1">
+                Premium Courts
+              </p>
             </div>
 
             {/* Stat Card 2 */}
             <div className="w-full sm:w-auto lg:w-52 bg-gray-400/10 backdrop-blur-xs border-r-2 border-b-2 border-[#83c400] rounded-xl p-4 sm:p-6 lg:p-10 text-center shadow-xl hover:border-[#83c400]/50 transition-all">
-              <h3 className="text-3xl sm:text-4xl font-black text-[#83c400]">89+</h3>
-              <p className="text-[12px] font-bold text-white uppercase tracking-wider mt-1">Verified Coaches</p>
+              <h3 className="text-3xl sm:text-4xl font-black text-[#83c400]">
+                89+
+              </h3>
+              <p className="text-[12px] font-bold text-white uppercase tracking-wider mt-1">
+                Verified Coaches
+              </p>
             </div>
 
             {/* Stat Card 3 */}
             <div className="w-full sm:w-auto lg:w-52 bg-gray-400/10 backdrop-blur-xs border-r-2 border-b-2 border-[#83c400] rounded-xl p-4 sm:p-6 lg:p-10 text-center shadow-xl hover:border-[#83c400]/50 transition-all">
-              <h3 className="text-3xl sm:text-4xl font-black text-[#83c400]">12+</h3>
-              <p className="text-[12px] font-bold text-white uppercase tracking-wider mt-1">Active Players</p>
+              <h3 className="text-3xl sm:text-4xl font-black text-[#83c400]">
+                12+
+              </h3>
+              <p className="text-[12px] font-bold text-white uppercase tracking-wider mt-1">
+                Active Players
+              </p>
             </div>
-              <div className="col-span-2 sm:col-span-3 lg:col-span-1">
-                  <a
+            <div className=" flex gap-3 sm:col-span-3 lg:col-span-1">
+              {showApplyForOwner && (
+                <Link
+                  href="/owner-application"
+                  className="inline-flex w-full items-center justify-center space-x-3 rounded-2xl border border-[#83c400] bg-white text-black px-5 py-3 text-xs font-extrabold uppercase tracking-wider  transition-all hover:scale-105 hover:bg-[#83c400] hover:text-[#020d1a] sm:w-auto lg:w-52 lg:justify-start sm:text-sm"
+                >
+                  <span className="text-[14px]">ADD YOUR TURF</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-xl bg-[#6ca300] text-white">
+                    <svg
+                      className="h-3.5 w-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      />
+                    </svg>
+                  </span>
+                </Link>
+              )}
+              <a
                 href="#book-court"
-                className="inline-flex w-full sm:w-auto lg:w-52 items-center justify-center lg:justify-start space-x-3 bg-[#83c400] hover:bg-[#92dc00] text-[#020d1a] font-extrabold text-xs sm:text-sm uppercase tracking-wider px-5 py-3 rounded-2xl transition-all shadow-lg hover:scale-105"
+                className="inline-flex w-full items-center justify-center space-x-3 rounded-2xl bg-[#83c400] px-5 py-3 text-xs font-extrabold uppercase tracking-wider text-[#020d1a] shadow-lg transition-all hover:scale-105 hover:bg-[#92dc00] sm:w-auto lg:w-52 lg:justify-start sm:text-sm"
               >
-                <span>Book a Court</span>
-                <span className="flex items-center justify-center w-6 h-6 bg-[#6ca300] rounded-xl text-white">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                <span>Book a Turf</span>
+                <span className="flex h-6 w-6 items-center justify-center rounded-xl bg-[#6ca300] text-white">
+                  <svg
+                    className="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
                   </svg>
                 </span>
               </a>
-              </div>
+            </div>
           </div>
         </div>
       </div>
