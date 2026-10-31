@@ -108,7 +108,13 @@ const Navbar = () => {
         >
           <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#83c400] font-bold text-[#020d1a]">
             {image ? (
-              <img src={image} alt="" className="h-full w-full object-cover" />
+              <Image
+                src={image}
+                alt=""
+                className="h-full w-full object-cover"
+                width={1000}
+                height={1000}
+              />
             ) : (
               initials || <UserRound className="h-5 w-5" />
             )}
