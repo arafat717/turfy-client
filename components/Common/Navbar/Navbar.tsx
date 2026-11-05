@@ -13,7 +13,7 @@ import { useGetMeQuery } from "@/redux/api/authApi";
 import { logout } from "@/redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ChevronDown, LogOut, UserRound } from "lucide-react";
+import { ChevronDown, LogOut, User, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -25,6 +25,7 @@ type Profile = {
   name?: string;
   email?: string;
   image?: string;
+  role?: string;
   picture?: string;
 };
 
@@ -63,6 +64,8 @@ const Navbar = () => {
   ) as { data?: { data?: Profile }; isLoading: boolean };
   const profile = (profileResponse?.data ?? storedUser) as Profile | undefined;
   const name = profile?.name || "User";
+  const role = profile?.role;
+  console.log("Profile role:", role);
   const initials = name
     .split(/\s+/)
     .filter(Boolean)
@@ -96,6 +99,9 @@ const Navbar = () => {
     { title: "Home", href: "/" },
     { title: "Blog", href: "/blog" },
     { title: "Contact Us", href: "/contact-us" },
+    ...(role === "ADMIN" || role === "USER" || role === "OWNER"
+      ? [{ title: "Dashboard", href: `${role.toLowerCase()}/dashboard` }]
+      : []),
   ];
 
   const profileMenu = (
@@ -139,6 +145,22 @@ const Navbar = () => {
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-slate-700" />
+         <DropdownMenuItem
+          className="cursor-pointer text-white focus:bg-[#0b2a45] focus:text-[#83c400]"
+        >
+          <User className="mr-2 h-4 w-4 text-[#83c400]" />
+          <Link href="/dashboard" className="w-full">
+            Dashboard
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="cursor-pointer text-white focus:bg-[#0b2a45] focus:text-[#83c400]"
+        >
+          <User className="mr-2 h-4 w-4 text-[#83c400]" />
+          <Link href="/profile" className="w-full">
+            Profile
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={handleLogout}
           className="cursor-pointer text-white focus:bg-[#0b2a45] focus:text-[#83c400]"

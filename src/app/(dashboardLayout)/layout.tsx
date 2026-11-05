@@ -22,57 +22,62 @@ export default function DashboardLayout({
   const role = decodedToken?.role || "ADMIN";
 
   return (
-    <SidebarProvider>
-      {/* Pass the user role dynamically to AppSidebar */}
+    <SidebarProvider
+      style={
+        {
+          "--sidebar": "#001428",
+          "--sidebar-foreground": "#e2e8f0",
+          "--sidebar-primary": "#83c400",
+          "--sidebar-primary-foreground": "#001428",
+          "--sidebar-accent": "#0b2a45",
+          "--sidebar-accent-foreground": "#83c400",
+          "--sidebar-border": "#1e293b",
+          "--sidebar-ring": "#83c400",
+        } as React.CSSProperties
+      }
+    >
       <AppSidebar role={role} />
-      <SidebarInset className="bg-[#f8fafc]">
-        {/* Modern Top Header */}
-        <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between gap-4 border-b border-gray-200/80 bg-white/95 px-4 sm:px-6 backdrop-blur-sm transition-all">
+      <SidebarInset className="bg-[#f4f7f8]">
+        <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between gap-4 border-b border-slate-800 bg-[#001428]/95 px-4 text-white shadow-sm backdrop-blur-sm transition-all sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
-            <SidebarTrigger className="-ml-1 text-gray-600 hover:text-gray-900 rounded-xs" />
-            <div className="h-4 w-[1px] bg-gray-200" />
-            {/* Breadcrumbs */}
-            <nav className="flex items-center gap-1.5 text-xs text-gray-500 font-medium">
+            <SidebarTrigger className="-ml-1 rounded-lg text-slate-300 hover:bg-[#0b2a45] hover:text-[#83c400]" />
+            <div className="h-5 w-px bg-slate-700" />
+            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
               <Link
                 href="/admin/dashboard"
-                className="hover:text-gray-900 flex items-center gap-1"
+                className="flex items-center gap-1 transition-colors hover:text-[#83c400]"
               >
-                <Home size={13} />
+                <Home size={14} className="text-[#83c400]" />
                 <span>Dashboard</span>
               </Link>
-              <ChevronRight size={12} className="text-gray-400" />
-              <span className="text-gray-900 font-semibold">Overview</span>
+              <ChevronRight size={13} className="text-slate-600" />
+              <span className="font-semibold text-white">Overview</span>
             </nav>
           </div>
 
-          {/* Right Header Controls */}
-          <div className="flex items-center gap-2.5">
-            {/* Quick Search */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-100/80 hover:bg-gray-100 rounded-xs border border-gray-200 text-xs text-gray-500 cursor-pointer transition-colors">
-              <Search size={14} className="text-gray-400" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden cursor-pointer items-center gap-2 rounded-lg border border-slate-700 bg-white/5 px-3 py-2 text-xs text-slate-400 transition-colors hover:border-slate-600 hover:bg-white/10 sm:flex">
+              <Search size={14} className="text-[#83c400]" />
               <span>Search platform...</span>
-              <kbd className="ml-2 font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-gray-200 text-gray-500">
+              <kbd className="ml-2 rounded border border-slate-700 bg-[#001020] px-1.5 py-0.5 font-mono text-[10px] text-slate-400">
                 ⌘K
               </kbd>
             </div>
 
-            {/* Notification Bell */}
             <button
               title="Notifications"
-              className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-xs transition-colors cursor-pointer"
+              className="relative cursor-pointer rounded-lg p-2 text-slate-300 transition-colors hover:bg-[#0b2a45] hover:text-[#83c400]"
             >
               <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-white" />
+              <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-[#83c400] ring-2 ring-[#001428]" />
             </button>
           </div>
         </header>
 
-        {/* Dashboard Content Container */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 min-h-[calc(100vh-4rem)]">
+        <main className="min-h-[calc(100vh-4rem)] flex-1 p-4 sm:p-6 lg:p-8">
           {children}
         </main>
       </SidebarInset>
     </SidebarProvider>
   );
 }
-

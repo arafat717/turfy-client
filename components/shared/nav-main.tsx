@@ -13,6 +13,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import Link from "next/link";
@@ -34,6 +35,10 @@ export function NavMain({
   }[];
 }) {
   const pathname = usePathname();
+  const { isMobile, setOpenMobile } = useSidebar();
+  const closeMobileSidebar = () => {
+    if (isMobile) setOpenMobile(false);
+  };
 
   return (
     <SidebarGroup>
@@ -53,11 +58,11 @@ export function NavMain({
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       tooltip={item.title}
-                      className={`${
+                      className={
                         isActive
-                          ? "bg-primary text-white hover:bg-primary/80 hover:text-white "
-                          : ""
-                      }`}
+                          ? "bg-[#83c400] font-semibold text-[#001428] hover:bg-[#92dc00] hover:text-[#001428]"
+                          : "text-slate-300 hover:bg-[#0b2a45] hover:text-[#83c400]"
+                      }
                     >
                       {item.icon && <item.icon className="mr-2 h-5 w-5" />}
                       <span>{item.title}</span>
@@ -69,14 +74,16 @@ export function NavMain({
                       {item.items.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton asChild>
-                            <Link href={subItem.url}>
+                            <Link href={subItem.url} onClick={closeMobileSidebar}>
                               {subItem.icon && (
                                 <subItem.icon className="mr-2 h-5 w-5" />
                               )}
                               <span
-                                className={`${
-                                  pathname === subItem.url ? "text-primary" : ""
-                                }`}
+                                className={
+                                  pathname === subItem.url
+                                    ? "font-semibold text-[#83c400]"
+                                    : "text-slate-400"
+                                }
                               >
                                 {subItem.title}
                               </span>
@@ -97,13 +104,13 @@ export function NavMain({
               <SidebarMenuButton
                 asChild
                 tooltip={item.title}
-                className={`${
+                className={
                   isActive
-                    ? "bg-primary text-white hover:bg-primary/90 hover:text-white"
-                    : ""
-                }`}
+                    ? "bg-[#83c400] my-2 font-semibold text-[#001428] hover:bg-[#92dc00] hover:text-[#001428]"
+                    : "text-slate-300 my-2 hover:bg-[#0b2a45] hover:text-[#83c400]"
+                }
               >
-                <Link href={item.url}>
+                <Link href={item.url} onClick={closeMobileSidebar}>
                   {item.icon && <item.icon className="mr-2 h-5 w-5" />}
                   <span>{item.title}</span>
                 </Link>
