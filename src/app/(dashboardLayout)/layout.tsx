@@ -37,7 +37,7 @@ export default function DashboardLayout({
       }
     >
       <AppSidebar role={role} />
-      <SidebarInset className="bg-[#f4f7f8]">
+      <SidebarInset className="bg-[#020d1a]">
         <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between gap-4 border-b border-slate-800 bg-[#001428]/95 px-4 text-white shadow-sm backdrop-blur-sm transition-all sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <SidebarTrigger className="-ml-1 rounded-lg text-slate-300 hover:bg-[#0b2a45] hover:text-[#83c400]" />

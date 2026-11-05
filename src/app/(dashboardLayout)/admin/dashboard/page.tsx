@@ -1,9 +1,10 @@
+import AdminPage from "@/components/AdminPages/AdminPage";
 
 
 const page = () => {
   return (
     <div>
-      <h1>Admin Dashboard</h1>
+      <AdminPage />
     </div>
   );
 };

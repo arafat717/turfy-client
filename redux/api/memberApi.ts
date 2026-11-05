@@ -9,9 +9,32 @@ export interface Event {
   capacity?: number;
 }
 
+export interface Member {
+  id?: string;
+  _id?: string;
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  businessName?: string;
+  address?: string;
+  createdAt?: string;
+  adminApprovedStatus?: string;
+  status?: string;
+  user?: {
+    name?: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+  };
+  [key: string]: unknown;
+}
+
 export interface MemberResponse {
   success: boolean;
-  data: Event[];
+  data: Member[];
   meta: {
     page: number;
     limit: number;

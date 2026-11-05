@@ -50,21 +50,9 @@ const data = {
         icon: LayoutDashboard,
       },
       {
-        title: "Users",
-        url: "/user/dashboard/users",
+        title: "Approval Requests",
+        url: "/admin/dashboard/approval-requests",
         icon: HandCoins,
-        items: [
-          {
-            title: "Users",
-            url: "/user/dashboard/estimates",
-            icon: Users,
-          },
-          {
-            title: "Pending Users",
-            url: "/user/dashboard/pending-users",
-            icon: InfoIcon,
-          },
-        ],
       },
       {
         title: "Your Profile",
