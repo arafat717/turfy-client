@@ -85,6 +85,14 @@ export const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    updateMe: builder.mutation({
+      query: (payload: FormData) => ({
+        url: "/auth/me",
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["User"],
+    }),
     updateUser: builder.mutation({
       query: (data: any) => ({
         url: "/users/update-profile",
@@ -107,6 +115,7 @@ export const {
   useResetPasswordMutation,
   useChangePasswordMutation,
   useGetMeQuery,
+  useUpdateMeMutation,
   useUpdateUserMutation,
   useGoogleLoginMutation,
 } = authApi;

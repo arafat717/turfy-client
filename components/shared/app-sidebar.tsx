@@ -56,7 +56,7 @@ const data = {
       },
       {
         title: "Your Profile",
-        url: "/user/dashboard/profile",
+        url: "/profile",
         icon: User,
       },
       {

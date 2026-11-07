@@ -27,6 +27,7 @@ type Profile = {
   image?: string;
   role?: string;
   picture?: string;
+  profileImageUrl?: string;
 };
 
 const ProfileSkeleton = ({ compact = false }: { compact?: boolean }) => (
@@ -63,7 +64,9 @@ const Navbar = () => {
     },
   ) as { data?: { data?: Profile }; isLoading: boolean };
   const profile = (profileResponse?.data ?? storedUser) as Profile | undefined;
+  console.log("Profile data:", profile);
   const name = profile?.name || "User";
+  const profileImage = profile?.profileImageUrl;
   const role = profile?.role;
   console.log("Profile role:", role);
   const initials = name
@@ -113,9 +116,9 @@ const Navbar = () => {
           aria-label="Open profile menu"
         >
           <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#83c400] font-bold text-[#020d1a]">
-            {image ? (
+            {profileImage ? (
               <Image
-                src={image}
+                src={profileImage }
                 alt=""
                 className="h-full w-full object-cover"
                 width={1000}
@@ -149,7 +152,7 @@ const Navbar = () => {
           className="cursor-pointer text-white focus:bg-[#0b2a45] focus:text-[#83c400]"
         >
           <User className="mr-2 h-4 w-4 text-[#83c400]" />
-          <Link href="/dashboard" className="w-full">
+          <Link href={`/${role?.toLowerCase()}/dashboard`} className="w-full">
             Dashboard
           </Link>
         </DropdownMenuItem>

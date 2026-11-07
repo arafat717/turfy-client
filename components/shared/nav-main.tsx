@@ -60,8 +60,8 @@ export function NavMain({
                       tooltip={item.title}
                       className={
                         isActive
-                          ? "bg-[#83c400] font-semibold text-[#001428] hover:bg-[#92dc00] hover:text-[#001428]"
-                          : "text-slate-300 hover:bg-[#0b2a45] hover:text-[#83c400]"
+                          ? "bg-[#83c400] font-semibold py-3 text-[#001428] hover:bg-[#92dc00] hover:text-[#001428]"
+                          : "text-slate-300 py-3 hover:bg-[#0b2a45] hover:text-[#83c400]"
                       }
                     >
                       {item.icon && <item.icon className="mr-2 h-5 w-5" />}
@@ -106,8 +106,8 @@ export function NavMain({
                 tooltip={item.title}
                 className={
                   isActive
-                    ? "bg-[#83c400] my-2 font-semibold text-[#001428] hover:bg-[#92dc00] hover:text-[#001428]"
-                    : "text-slate-300 my-2 hover:bg-[#0b2a45] hover:text-[#83c400]"
+                    ? "bg-[#83c400]  py-6 font-semibold text-[#001428] hover:bg-[#92dc00] hover:text-[#001428]"
+                    : "text-slate-300  py-6 hover:bg-[#0b2a45] hover:text-[#83c400]"
                 }
               >
                 <Link href={item.url} onClick={closeMobileSidebar}>
