@@ -11,6 +11,7 @@ import {
   HandCoins,
   Home,
   InfoIcon,
+  LandPlot,
   LayoutDashboard,
   User,
   Users,
@@ -23,16 +24,21 @@ import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
 const data = {
-  user: {
+  owner: {
     navMain: [
       {
         title: "Dashboard",
-        url: "/user",
+        url: "/owner/dashboard",
         icon: LayoutDashboard,
       },
       {
+        title: "My Grounds",
+        url: "/owner/dashboard/mygrounds",
+        icon: LandPlot,
+      },
+      {
         title: "Your Profile",
-        url: "/user/dashboard/profile",
+        url: "/profile",
         icon: User,
       },
       {
