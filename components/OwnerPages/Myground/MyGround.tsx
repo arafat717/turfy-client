@@ -25,8 +25,8 @@ const ground = {
   name: "Champion Futsal Arena",
   address:
     "13, Block - N, Tackle Ground, Plot No- 17, Road No - Avenue, Sector- 3 Jahurul Islam City, Dhaka 1212",
-  latitude: 23.769419296398056,
-  longitude: 90.45708975970363,
+  latitude: 23.769080439164732,
+  longitude: 90.45697171117602,
   sportTypes: "FUTSAL",
   status: "ACTIVE",
   deletedAt: null,
@@ -70,7 +70,7 @@ export default function MyGround() {
               My grounds
             </h1>
             <p className="mt-2 text-sm leading-6 text-slate-300">
-              Manage your grounds and review their details.
+              Manage your grounds
             </p>
           </div>
           <Button
@@ -197,7 +197,7 @@ export default function MyGround() {
                       ))}
                     </dl>
                     <a
-                      href={`https://www.google.com/maps?q=${ground.latitude},${ground.longitude}`}
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ground.address)}`}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#a8e64a] hover:underline"
