@@ -70,7 +70,7 @@ export default function MyGround() {
               My grounds
             </h1>
             <p className="mt-2 text-sm leading-6 text-slate-300">
-              Manage your grounds
+              Manage grounds
             </p>
           </div>
           <Button
